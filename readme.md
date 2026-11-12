@@ -11,22 +11,23 @@ Editor de fotografias completo que roda inteiramente no navegador, sem upload pa
 
 ## 📋 Índice
 
-- [Sobre o projeto](#-sobre-o-projeto)
-- [Funcionalidades](#-funcionalidades)
-- [Como usar](#-como-usar)
-- [Atalhos de teclado](#%EF%B8%8F-atalhos-de-teclado)
-- [Formato de projeto](#-formato-de-projeto)
-- [Instalação no computador](#-instalação-no-computador)
-- [Instalação no celular ou tablet](#-instalação-no-celular-ou-tablet)
-- [Observações sobre instalação como PWA](#-observações-sobre-instalação-como-pwa)
-- [Estrutura do projeto](#-estrutura-do-projeto)
-- [Tecnologias utilizadas](#-tecnologias-utilizadas)
-- [Compatibilidade](#-compatibilidade)
-- [Licença](#-licença)
-- [Aviso](#-aviso)
+- [Sobre o projeto](#sobre-o-projeto)
+- [Funcionalidades](#funcionalidades)
+- [Como usar](#como-usar)
+- [Atalhos de teclado](#atalhos-de-teclado)
+- [Formato de projeto](#formato-de-projeto)
+- [Instalação no computador](#instalacao-no-computador)
+- [Instalação no celular ou tablet](#instalacao-no-celular-ou-tablet)
+- [Observações sobre instalação como PWA](#observacoes-pwa)
+- [Estrutura do projeto](#estrutura-do-projeto)
+- [Tecnologias utilizadas](#tecnologias-utilizadas)
+- [Compatibilidade](#compatibilidade)
+- [Licença](#licenca)
+- [Aviso](#aviso)
 
 ---
 
+<a id="sobre-o-projeto"></a>
 ## ✨ Sobre o projeto
 
 O **Studio Retrato FX** é um editor de imagens feito como projeto de estudo de **HTML, CSS e JavaScript puro**, sem frameworks, sem bibliotecas externas e sem nenhuma requisição de rede durante o uso — toda a edição acontece localmente no seu navegador.
@@ -35,6 +36,7 @@ Basta abrir o `index.html` (ou acessar a versão publicada) e começar a editar.
 
 ---
 
+<a id="funcionalidades"></a>
 ## 🎨 Funcionalidades
 
 ### Edição e ajustes
@@ -60,6 +62,7 @@ Basta abrir o `index.html` (ou acessar a versão publicada) e começar a editar.
 
 ---
 
+<a id="como-usar"></a>
 ## 🚀 Como usar
 
 1. Abra o `index.html` no navegador **ou** acesse a versão publicada no GitHub Pages.
@@ -71,6 +74,7 @@ Basta abrir o `index.html` (ou acessar a versão publicada) e começar a editar.
 
 ---
 
+<a id="atalhos-de-teclado"></a>
 ## ⌨️ Atalhos de teclado
 
 | Atalho | Ação |
@@ -85,6 +89,7 @@ Basta abrir o `index.html` (ou acessar a versão publicada) e começar a editar.
 
 ---
 
+<a id="formato-de-projeto"></a>
 ## 💾 Formato de projeto
 
 O arquivo salvo é um **JSON com assinatura** que contém:
