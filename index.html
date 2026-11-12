@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Studio Retrato FX</title>
 <link rel="icon" href="icon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="icon.ico" type="image/x-icon">  
+<link rel="shortcut icon" href="icon.ico" type="image/x-icon">
 <style>
 :root{--bg:#090e1a;--panel:#111a2c;--panel2:#18243b;--line:#2b3a57;--text:#edf3ff;--muted:#91a2c1;--accent:#7657ff;--cyan:#20c9b7;--danger:#ff5b76}
 *{box-sizing:border-box}
@@ -40,9 +40,23 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 1
 .upload small,.hint{color:var(--muted);font-size:11px}
 .file{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .presets{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.preset{height:54px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(135deg,#263550,#11192a);color:#fff;font-weight:700;cursor:pointer}
-.preset:hover{border-color:#6c80ab}
-.preset.active{outline:2px solid var(--accent)}
+.preset{position:relative;height:54px;border:1px solid var(--line);border-radius:10px;color:#fff;font-weight:700;cursor:pointer;text-shadow:0 1px 3px #000c;overflow:hidden;transition:filter .15s}
+.preset[data-p="original"]{background:linear-gradient(135deg,#4a5568,#2d3748)}
+.preset[data-p="aging"]{background:linear-gradient(135deg,#b08a5a,#4a2f1a)}
+.preset[data-p="cartoon"]{background:linear-gradient(135deg,#ff6b9d,#ffd93d,#6bcb77)}
+.preset[data-p="comic"]{background:linear-gradient(135deg,#ff2d2d,#ffd93d,#2d6bff)}
+.preset[data-p="noir"]{background:linear-gradient(135deg,#e0e0e0,#1a1a1a)}
+.preset[data-p="vintage"]{background:linear-gradient(135deg,#d4b07b,#5c3d22)}
+.preset[data-p="sketch"]{background:linear-gradient(135deg,#f0f0f0,#606060)}
+.preset[data-p="cyber"]{background:linear-gradient(135deg,#a020f0,#00d4ff)}
+.preset[data-p="craquele"]{background:linear-gradient(135deg,#8a6a44,#3a2414)}
+.preset[data-p="aquarela"]{background:linear-gradient(135deg,#ffd1dc,#b0e0e6,#98fb98)}
+.preset[data-p="poster"]{background:linear-gradient(135deg,#ff4500,#ffd700,#1e90ff)}
+.preset[data-p="duotone"]{background:linear-gradient(135deg,#003049,#fcbf49)}
+.preset[data-p="glow"]{background:linear-gradient(135deg,#ffe066,#ff69b4,#ffd700)}
+.preset[data-p="dramatic"]{background:linear-gradient(135deg,#1a1a1a,#8b0000)}
+.preset:hover{filter:brightness(1.15)}
+.preset.active{outline:2px solid var(--accent);outline-offset:0}
 .toolgrid,.paintgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .paintgrid{grid-template-columns:repeat(3,1fr)}
 .paintgrid .btn{padding:8px 4px;font-size:11px}
@@ -50,9 +64,12 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 1
 .control label,.control output{font-size:12px}
 .head{display:flex;justify-content:space-between;margin-bottom:5px}
 .head output{color:var(--cyan)}
-input[type=range]{width:100%;accent-color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .select,.text,.color{width:100%;background:#0d1526;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px}
 .color{height:40px;padding:3px}
+.swatches{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;min-height:22px}
+.swatch{width:22px;height:22px;border-radius:6px;border:1px solid var(--line);cursor:pointer;padding:0;transition:transform .1s}
+.swatch:hover{transform:scale(1.12);border-color:var(--cyan)}
 .stage{display:flex;min-width:0;min-height:0;flex-direction:column}
 .stagebar{height:46px;flex:0 0 46px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 12px;color:var(--muted)}
 .view{position:relative;flex:1;min-height:0;overflow:scroll;background-color:#080d17;background-image:linear-gradient(45deg,#121b2b 25%,transparent 25%),linear-gradient(-45deg,#121b2b 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#121b2b 75%),linear-gradient(-45deg,transparent 75%,#121b2b 75%);background-size:24px 24px;background-position:0 0,0 12px,12px -12px,-12px 0;cursor:grab;touch-action:pan-x pan-y}
@@ -66,10 +83,12 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .cropactions.active{display:flex}
 .toggle{display:flex;justify-content:space-between;align-items:center;margin:9px 0}
 .toggle input{accent-color:var(--accent)}
-.toast{position:fixed;right:18px;bottom:18px;background:#16223a;border:1px solid #4a5e82;padding:11px 14px;border-radius:10px;opacity:0;transform:translateY(20px);transition:.2s;z-index:20;pointer-events:none}
+.toast{position:fixed;right:18px;bottom:18px;background:#16223a;border:1px solid #4a5e82;padding:11px 14px;border-radius:10px;opacity:0;transform:translateY(20px);transition:.2s;z-index:20;pointer-events:none;max-width:340px}
 .toast.show{opacity:1;transform:none}
 .processing{display:none;color:#fff;background:#5038bb;border:1px solid #8f7cff;border-radius:999px;padding:4px 9px;font-size:11px}
 .processing.show{display:inline-block}
+.drop-overlay{position:fixed;inset:0;display:none;place-items:center;background:rgba(9,14,26,.85);color:var(--text);font-size:22px;font-weight:800;z-index:100;pointer-events:none;border:3px dashed var(--accent);text-align:center;padding:20px}
+.drop-overlay.show{display:grid}
 @media(max-width:900px){.workspace{grid-template-columns:220px minmax(0,1fr)}.right{display:none}}
 @media(max-width:650px){body{overflow:auto}.app{height:auto}.workspace{display:block}.side{height:auto}.scroll{position:relative;overflow:visible}.stage{height:520px}.right{display:block}.actions span{display:none}.divider{display:none}}
 </style>
@@ -97,26 +116,26 @@ input[type=range]{width:100%;accent-color:var(--accent)}
         </section>
         <section class="section">
           <div class="title">Estilos</div>
-          <div class="presets">
-            <button class="preset active" data-p="original">Original</button>
-            <button class="preset" data-p="aging">Envelhecido</button>
-            <button class="preset" data-p="cartoon">Cartoon</button>
-            <button class="preset" data-p="comic">HQ vibrante</button>
-            <button class="preset" data-p="noir">Noir</button>
-            <button class="preset" data-p="vintage">Vintage</button>
-            <button class="preset" data-p="sketch">Esboço</button>
-            <button class="preset" data-p="cyber">Cyber</button>
-            <button class="preset" data-p="craquele">Craquelê</button>
-            <button class="preset" data-p="aquarela">Aquarela</button>
-            <button class="preset" data-p="poster">Pôster</button>
-            <button class="preset" data-p="duotone">Duotone</button>
-            <button class="preset" data-p="glow">Glow</button>
-            <button class="preset" data-p="dramatic">Dramático</button>
+          <div class="presets" role="toolbar" aria-label="Estilos predefinidos">
+            <button class="preset active" data-p="original" aria-pressed="true">Original</button>
+            <button class="preset" data-p="aging" aria-pressed="false">Envelhecido</button>
+            <button class="preset" data-p="cartoon" aria-pressed="false">Cartoon</button>
+            <button class="preset" data-p="comic" aria-pressed="false">HQ vibrante</button>
+            <button class="preset" data-p="noir" aria-pressed="false">Noir</button>
+            <button class="preset" data-p="vintage" aria-pressed="false">Vintage</button>
+            <button class="preset" data-p="sketch" aria-pressed="false">Esboço</button>
+            <button class="preset" data-p="cyber" aria-pressed="false">Cyber</button>
+            <button class="preset" data-p="craquele" aria-pressed="false">Craquelê</button>
+            <button class="preset" data-p="aquarela" aria-pressed="false">Aquarela</button>
+            <button class="preset" data-p="poster" aria-pressed="false">Pôster</button>
+            <button class="preset" data-p="duotone" aria-pressed="false">Duotone</button>
+            <button class="preset" data-p="glow" aria-pressed="false">Glow</button>
+            <button class="preset" data-p="dramatic" aria-pressed="false">Dramático</button>
           </div>
         </section>
         <section class="section">
           <div class="title">Transformar</div>
-          <div class="toolgrid">
+          <div class="toolgrid" role="toolbar" aria-label="Transformações">
             <button class="btn" id="rotL">↶ Girar</button>
             <button class="btn" id="rotR">↷ Girar</button>
             <button class="btn" id="flip">↔ Espelhar</button>
@@ -125,13 +144,11 @@ input[type=range]{width:100%;accent-color:var(--accent)}
         </section>
         <section class="section">
           <div class="title">Ferramentas</div>
-          <div class="toolgrid">
+          <div class="toolgrid" role="toolbar" aria-label="Ferramentas">
             <button class="btn" id="cropBtn">✂ Cortar</button>
             <button class="btn" id="copy">⧉ Copiar</button>
             <button class="btn" id="paste">▣ Colar</button>
             <button class="btn danger" id="clear">⌫ Limpar imagem</button>
-            <button class="btn" id="undo2">↶ Desfazer</button>
-            <button class="btn" id="redo2">↷ Refazer</button>
           </div>
           <div class="cropactions" id="cropActions">
             <button class="btn primary" id="applyCrop">Aplicar</button>
@@ -152,13 +169,13 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
         <section class="section">
           <div class="title">Pintura</div>
-          <div class="paintgrid">
-            <button class="btn" data-tool="pencil">✎ Lápis</button>
-            <button class="btn" data-tool="brush">🖌 Pincel</button>
-            <button class="btn" data-tool="eraser">⌫ Borracha</button>
-            <button class="btn" data-tool="bucket">▾ Balde</button>
-            <button class="btn" data-tool="picker" title="Clique na foto para copiar uma cor">💉 Copiar cor</button>
-            <button class="btn" data-tool="line">╱ Linha</button>
+          <div class="paintgrid" role="toolbar" aria-label="Ferramentas de pintura">
+            <button class="btn" data-tool="pencil" aria-pressed="false">✎ Lápis</button>
+            <button class="btn" data-tool="brush" aria-pressed="false">🖌 Pincel</button>
+            <button class="btn" data-tool="eraser" aria-pressed="false">⌫ Borracha</button>
+            <button class="btn" data-tool="bucket" aria-pressed="false">▾ Balde</button>
+            <button class="btn" data-tool="picker" aria-pressed="false" title="Clique na foto para copiar uma cor">💉 Copiar cor</button>
+            <button class="btn" data-tool="line" aria-pressed="false">╱ Linha</button>
           </div>
           <div class="control">
             <div class="head"><label for="color">Cor selecionada</label></div>
@@ -167,6 +184,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
               <input class="text" id="hex" value="#ffffff" maxlength="7" aria-label="Código hexadecimal">
               <button class="btn" id="copyHex">Copiar</button>
             </div>
+            <div class="swatches" id="swatches" aria-label="Cores recentes"></div>
           </div>
           <div class="control">
             <div class="head"><label for="size">Tamanho</label><output id="sizeOut" for="size">20 px</output></div>
@@ -209,7 +227,12 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     </section>
     <aside class="side right">
       <div class="scroll">
-        <section class="section"><div class="title">Ajustes</div><div id="adjustments"></div></section>
+        <section class="section">
+          <div class="title">Ajustes</div>
+          <div id="adjustments"></div>
+          <button class="btn" id="resetAdjust" style="width:100%;margin-top:8px">↺ Resetar ajustes</button>
+          <p class="hint" style="margin:8px 0 0">Dica: duplo clique no slider reseta o valor.</p>
+        </section>
         <section class="section">
           <div class="title">Cartoon artístico</div>
           <label class="toggle" for="cartoon">Ativar <input id="cartoon" type="checkbox"></label>
@@ -249,6 +272,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="drop-overlay" id="dropOverlay">Solte o arquivo aqui</div>
 <script>
 (() => {
   'use strict';
@@ -262,9 +286,13 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
   const MAX_SIDE = 2400;
   const HISTORY_LIMIT = 15;
+  const MAX_HISTORY_PIXELS = 2400 * 2400 * 6;
   const PREVIEW_MAX = 900;
   const PROJECT_VERSION = 1;
   const PROJECT_SIGNATURE = 'StudioRetratoFX';
+  const PREFS_KEY = 'srfx:prefs';
+  const COLORS_KEY = 'srfx:colors';
+  const BAKE_WARN_KEY = 'srfx:warnBake';
 
   const defs = [
     ['brightness', 'Brilho', 0, 200, 100, '%'],
@@ -300,8 +328,11 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   let last = null;
   let backup = null;
   let cropRect = null;
+  let cropHandle = null;
+  let cropOrigin = null;
   let history = [];
   let future = [];
+  let historyPixels = 0;
   let clipboard = null;
   let pan = null;
   let renderFrame = 0;
@@ -312,6 +343,10 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   let grainTileKey = -1;
   let currentName = 'imagem';
   let toastTimer = 0;
+  let paintRAF = 0;
+  let pendingPaint = null;
+  let dragDepth = 0;
+  let colorHistory = [];
   let state = defaultState();
 
   // ---- Sliders de ajuste ----
@@ -321,7 +356,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
         <label for="${id}">${n}</label>
         <output id="${id}Out" for="${id}">${val}${u}</output>
       </div>
-      <input id="${id}" type="range" min="${min}" max="${max}" value="${val}">
+      <input id="${id}" type="range" min="${min}" max="${max}" value="${val}" title="Duplo clique para resetar">
     </div>`).join('');
 
   // ---- Utilitários ----
@@ -340,7 +375,28 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     return n;
   };
 
+  const isImageFile = f => {
+    if (!f) return false;
+    if (f.type && f.type.startsWith('image/')) return true;
+    return /\.(jpe?g|png|webp|bmp|gif|avif)$/i.test(f.name || '');
+  };
+
+  // Garante que os efeitos respeitem a transparência existente
+  function withAlphaPreserved(fn) {
+    const mask = document.createElement('canvas');
+    mask.width = canvas.width;
+    mask.height = canvas.height;
+    mask.getContext('2d').drawImage(canvas, 0, 0);
+    fn();
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-in';
+    ctx.drawImage(mask, 0, 0);
+    ctx.restore();
+  }
+
   // ---- Histórico baseado em estado ----
+  const snapPixels = s => s.original.width * s.original.height;
+
   function snapshot() {
     return {
       original: clone(original),
@@ -351,11 +407,21 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
   function save() {
     if (!loaded) return;
-    history.push(snapshot());
-    if (history.length > HISTORY_LIMIT) history.shift();
+    const snap = snapshot();
+    history.push(snap);
+    historyPixels += snapPixels(snap);
+    while (history.length > HISTORY_LIMIT ||
+           (history.length > 2 && historyPixels > MAX_HISTORY_PIXELS)) {
+      const dropped = history.shift();
+      historyPixels -= snapPixels(dropped);
+    }
     future = [];
     buttons();
     dirty = true;
+  }
+
+  function resetHistory() {
+    history = []; future = []; historyPixels = 0; buttons();
   }
 
   function restoreSnap(snap) {
@@ -388,19 +454,25 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   function undo() {
     if (!history.length) return;
     future.push(snapshot());
-    restoreSnap(history.pop());
+    if (future.length > HISTORY_LIMIT) future.shift();
+    const snap = history.pop();
+    historyPixels -= snapPixels(snap);
+    restoreSnap(snap);
   }
 
   function redo() {
     if (!future.length) return;
-    history.push(snapshot());
-    restoreSnap(future.pop());
+    const snap = future.pop();
+    const cur = snapshot();
+    history.push(cur);
+    historyPixels += snapPixels(cur);
+    restoreSnap(snap);
   }
 
   function buttons() {
     const u = !history.length, r = !future.length;
-    $('#undo').disabled = $('#undo2').disabled = u;
-    $('#redo').disabled = $('#redo2').disabled = r;
+    $('#undo').disabled = u;
+    $('#redo').disabled = r;
     const sp = $('#saveProject');
     if (sp) sp.disabled = !loaded;
   }
@@ -422,9 +494,74 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     $('#smoothOut').value = state.smooth + '%';
   }
 
+  // ---- Preferências persistidas ----
+  function savePrefs() {
+    try {
+      localStorage.setItem(PREFS_KEY, JSON.stringify({
+        color: $('#color').value,
+        size: +$('#size').value,
+        opacity: $('#opacity').value,
+        tol: +$('#tol').value,
+        bgTol: +$('#bgTol').value,
+        format: $('#format').value,
+        quality: $('#quality').value
+      }));
+    } catch {}
+  }
+
+  function loadPrefs() {
+    try {
+      const p = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
+      if (p.color) { $('#color').value = p.color; $('#hex').value = p.color; }
+      if (p.size) { $('#size').value = p.size; $('#sizeOut').value = p.size + ' px'; }
+      if (p.opacity) $('#opacity').value = p.opacity;
+      if (p.tol != null) { $('#tol').value = p.tol; $('#tolOut').value = p.tol; }
+      if (p.bgTol != null) { $('#bgTol').value = p.bgTol; $('#bgTolOut').value = p.bgTol; }
+      if (p.format) $('#format').value = p.format;
+      if (p.quality) $('#quality').value = p.quality;
+    } catch {}
+    $('#quality').disabled = ($('#format').value === 'png' || $('#format').value === 'bmp');
+  }
+
+  // ---- Cores recentes ----
+  function loadColors() {
+    try {
+      const arr = JSON.parse(localStorage.getItem(COLORS_KEY) || '[]');
+      if (Array.isArray(arr)) colorHistory = arr.filter(c => /^#[0-9a-f]{6}$/i.test(c)).slice(0, 10);
+    } catch {}
+    renderSwatches();
+  }
+
+  function pushColorHistory(hex) {
+    if (!/^#[0-9a-f]{6}$/i.test(hex)) return;
+    const i = colorHistory.indexOf(hex);
+    if (i >= 0) colorHistory.splice(i, 1);
+    colorHistory.unshift(hex);
+    if (colorHistory.length > 10) colorHistory.length = 10;
+    try { localStorage.setItem(COLORS_KEY, JSON.stringify(colorHistory)); } catch {}
+    renderSwatches();
+  }
+
+  function renderSwatches() {
+    const box = $('#swatches');
+    if (!box) return;
+    box.innerHTML = colorHistory.map(c =>
+      `<button class="swatch" style="background:${c}" data-color="${c}" title="${c}" aria-label="Usar cor ${c}"></button>`
+    ).join('');
+  }
+
+  $('#swatches').addEventListener('click', e => {
+    const b = e.target.closest('.swatch');
+    if (!b) return;
+    const c = b.dataset.color;
+    $('#color').value = c;
+    $('#hex').value = c;
+    savePrefs();
+  });
+
   // ---- Carregamento ----
   async function loadFile(f) {
-    if (!f || !f.type.startsWith('image/')) return toast('Arquivo inválido');
+    if (!isImageFile(f)) return toast('Arquivo inválido');
     try {
       let img;
       if (window.createImageBitmap) {
@@ -466,7 +603,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     loaded = true; dirty = false;
     rotation = 0; flip = 1;
     state = defaultState();
-    history = []; future = [];
+    resetHistory();
     currentName = name || 'imagem';
     deactivateTools();
     $('#shell').style.display = 'block';
@@ -524,7 +661,9 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     const wc = work.getContext('2d', { willReadFrequently: true });
     wc.imageSmoothingEnabled = true;
     wc.imageSmoothingQuality = 'high';
+    if (state.smooth > 0) wc.filter = `blur(${(state.smooth / 100) * 4}px)`;
     wc.drawImage(source, 0, 0, work.width, work.height);
+    wc.filter = 'none';
 
     const w = work.width, h = work.height;
     const src = wc.getImageData(0, 0, w, h);
@@ -541,11 +680,15 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       out[i+2] = Math.round(d[i+2] / step) * step;
       out[i+3] = d[i+3];
     }
+    // Sobel corrigido (o termo inferior-esquerdo estava duplicado no gx)
     for (let y = 1; y < h - 1; y++) {
       for (let x = 1; x < w - 1; x++) {
         const p = y * w + x, i = p * 4;
-        const gx = -gray[p-w-1] + gray[p-w+1] - 2*gray[p-1] + 2*gray[p+1] - gray[p-w-1] + gray[p+w+1];
-        const gy = -gray[p-w-1] - 2*gray[p-w] - gray[p-w+1] + gray[p+w-1] + 2*gray[p+w] + gray[p+w+1];
+        const tl = gray[p-w-1], tc = gray[p-w], tr = gray[p-w+1];
+        const ml = gray[p-1],                    mr = gray[p+1];
+        const bl = gray[p+w-1], bc = gray[p+w], br = gray[p+w+1];
+        const gx = (tr + 2*mr + br) - (tl + 2*ml + bl);
+        const gy = (bl + 2*bc + br) - (tl + 2*tc + tr);
         const edge = Math.min(.94, Math.max(0, (Math.hypot(gx, gy) - 18) * .012 * state.edges / 100));
         out[i] *= 1 - edge;
         out[i+1] *= 1 - edge;
@@ -591,54 +734,60 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
   function applyGrain() {
     if (!state.grain) return;
-    const tile = getGrainTile(state.grain);
-    const pattern = ctx.createPattern(tile, 'repeat');
-    ctx.save();
-    ctx.globalCompositeOperation = 'overlay';
-    ctx.globalAlpha = Math.min(1, state.grain / 100);
-    ctx.fillStyle = pattern;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.restore();
+    withAlphaPreserved(() => {
+      const tile = getGrainTile(state.grain);
+      const pattern = ctx.createPattern(tile, 'repeat');
+      ctx.save();
+      ctx.globalCompositeOperation = 'overlay';
+      ctx.globalAlpha = Math.min(1, state.grain / 100);
+      ctx.fillStyle = pattern;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.restore();
+    });
   }
 
   function applyArtEffects() {
     if (state.vignette) {
-      const g = ctx.createRadialGradient(
-        canvas.width/2, canvas.height/2,
-        Math.min(canvas.width, canvas.height) * .18,
-        canvas.width/2, canvas.height/2,
-        Math.max(canvas.width, canvas.height) * .72
-      );
-      g.addColorStop(0, 'rgba(0,0,0,0)');
-      g.addColorStop(1, `rgba(0,0,0,${Math.min(.9, state.vignette / 100 * .85)})`);
-      ctx.save();
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.restore();
+      withAlphaPreserved(() => {
+        const g = ctx.createRadialGradient(
+          canvas.width/2, canvas.height/2,
+          Math.min(canvas.width, canvas.height) * .18,
+          canvas.width/2, canvas.height/2,
+          Math.max(canvas.width, canvas.height) * .72
+        );
+        g.addColorStop(0, 'rgba(0,0,0,0)');
+        g.addColorStop(1, `rgba(0,0,0,${Math.min(.9, state.vignette / 100 * .85)})`);
+        ctx.save();
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.restore();
+      });
     }
     if (state.crackle) {
-      let seed = (canvas.width * 2654435761 ^ canvas.height * 1597334677 ^ Math.round(state.crackle) * 3812015801) >>> 0;
-      const rnd = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296);
-      const count = Math.round((canvas.width + canvas.height) * (state.crackle / 100) * .12);
-      ctx.save();
-      ctx.globalCompositeOperation = 'multiply';
-      ctx.strokeStyle = `rgba(35,24,18,${.15 + state.crackle / 100 * .55})`;
-      ctx.lineCap = 'round';
-      for (let i = 0; i < count; i++) {
-        let x = rnd() * canvas.width;
-        let y = rnd() * canvas.height;
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        const segments = 2 + Math.floor(rnd() * 5);
-        for (let j = 0; j < segments; j++) {
-          x += (rnd() - .5) * canvas.width * .055;
-          y += (rnd() - .5) * canvas.height * .055;
-          ctx.lineTo(x, y);
+      withAlphaPreserved(() => {
+        let seed = (canvas.width * 2654435761 ^ canvas.height * 1597334677 ^ Math.round(state.crackle) * 3812015801) >>> 0;
+        const rnd = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296);
+        const count = Math.round((canvas.width + canvas.height) * (state.crackle / 100) * .12);
+        ctx.save();
+        ctx.globalCompositeOperation = 'multiply';
+        ctx.strokeStyle = `rgba(35,24,18,${.15 + state.crackle / 100 * .55})`;
+        ctx.lineCap = 'round';
+        for (let i = 0; i < count; i++) {
+          let x = rnd() * canvas.width;
+          let y = rnd() * canvas.height;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          const segments = 2 + Math.floor(rnd() * 5);
+          for (let j = 0; j < segments; j++) {
+            x += (rnd() - .5) * canvas.width * .055;
+            y += (rnd() - .5) * canvas.height * .055;
+            ctx.lineTo(x, y);
+          }
+          ctx.lineWidth = .4 + rnd() * Math.max(1, state.crackle / 28);
+          ctx.stroke();
         }
-        ctx.lineWidth = .4 + rnd() * Math.max(1, state.crackle / 28);
-        ctx.stroke();
-      }
-      ctx.restore();
+        ctx.restore();
+      });
     }
   }
 
@@ -663,15 +812,12 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
   function render(full = false) {
     if (!loaded) return;
-    const badge = $('#processing');
-    if (state.cartoon) badge.classList.add('show');
     const t = performance.now();
     base();
     cartoon(full);
     applyGrain();
     applyArtEffects();
     layoutCanvas();
-    badge.classList.remove('show');
     $('#status').textContent = state.cartoon
       ? `Cartoon processado em ${Math.round(performance.now() - t)} ms${full ? ' (qualidade máxima)' : ' (prévia)'}`
       : state.grain
@@ -729,7 +875,10 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       cartoonCache = null; cartoonCacheKey = '';
       dirty = true;
       scheduleRender();
-      $$('.preset').forEach(x => x.classList.remove('active'));
+      $$('.preset').forEach(x => {
+        x.classList.remove('active');
+        x.setAttribute('aria-pressed', 'false');
+      });
     });
   });
 
@@ -748,6 +897,31 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     cartoonCache = null; cartoonCacheKey = '';
     dirty = true;
     scheduleRender(20);
+  });
+
+  // Duplo clique num slider = reset ao valor padrão
+  $('#adjustments').addEventListener('dblclick', e => {
+    const inp = e.target.closest('input[type="range"]');
+    if (!inp) return;
+    const d = defs.find(([id]) => id === inp.id);
+    if (!d) return;
+    inp.value = d[4];
+    inp.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+
+  $('#resetAdjust').addEventListener('click', () => {
+    if (!loaded) return toast('Carregue uma imagem');
+    save();
+    state = defaultState();
+    cartoonCache = null; cartoonCacheKey = '';
+    sync();
+    $$('.preset').forEach(x => {
+      const active = x.dataset.p === 'original';
+      x.classList.toggle('active', active);
+      x.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    scheduleRender(20);
+    toast('Ajustes restaurados');
   });
 
   // ---- Presets ----
@@ -775,7 +949,11 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     cartoonCache = null; cartoonCacheKey = '';
     sync();
     scheduleRender(20);
-    $$('.preset').forEach(x => x.classList.toggle('active', x === b));
+    $$('.preset').forEach(x => {
+      const active = x === b;
+      x.classList.toggle('active', active);
+      x.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
   }));
 
   // ---- Ferramentas ----
@@ -798,7 +976,11 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   function selectTool(t) {
     if (!loaded && t !== null) return toast('Carregue uma imagem');
     tool = t;
-    $$('[data-tool]').forEach(b => b.classList.toggle('active', b.dataset.tool === t));
+    $$('[data-tool]').forEach(b => {
+      const active = b.dataset.tool === t;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
     const bgBtn = $('#bgRemoveBtn');
     if (bgBtn) bgBtn.classList.toggle('active', t === 'bgremove');
     $('#view').style.cursor = t ? 'crosshair' : 'grab';
@@ -806,7 +988,10 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
   function deactivateTools() {
     tool = null;
-    $$('[data-tool]').forEach(b => b.classList.remove('active'));
+    $$('[data-tool]').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
     const bgBtn = $('#bgRemoveBtn');
     if (bgBtn) bgBtn.classList.remove('active');
     $('#view').style.cursor = 'grab';
@@ -825,6 +1010,8 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     const hex = '#' + [d[0], d[1], d[2]].map(v => v.toString(16).padStart(2, '0')).join('');
     $('#color').value = hex;
     $('#hex').value = hex;
+    pushColorHistory(hex);
+    savePrefs();
     toast('Cor copiada: ' + hex);
   }
 
@@ -942,6 +1129,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
   $('#bgTol').addEventListener('input', e => {
     $('#bgTolOut').value = e.target.value;
+    savePrefs();
   });
 
   $('#bgRemoveBtn').addEventListener('click', () => {
@@ -968,6 +1156,28 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     last = p;
   }
 
+  // Coalescer eventos de pintura por frame
+  function queuePaint(p) {
+    pendingPaint = p;
+    if (paintRAF) return;
+    paintRAF = requestAnimationFrame(() => {
+      paintRAF = 0;
+      if (pendingPaint) { paintMove(pendingPaint); pendingPaint = null; }
+    });
+  }
+
+  function warnBakeOnce() {
+    if (sessionStorage.getItem(BAKE_WARN_KEY)) return;
+    const hasAdj =
+      state.brightness !== 100 || state.contrast !== 100 ||
+      state.saturate !== 100 || state.sepia || state.grayscale ||
+      state.blur || state.grain || state.crackle || state.vignette ||
+      state.hue || state.invert || state.cartoon;
+    if (!hasAdj) return;
+    toast('Atenção: pintar aplica os ajustes atuais de forma permanente.');
+    sessionStorage.setItem(BAKE_WARN_KEY, '1');
+  }
+
   function commit(preserveView = false) {
     cartoonCache = null; cartoonCacheKey = '';
     const c = clone(canvas);
@@ -981,6 +1191,34 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     render();
     if (!preserveView) fit();
     dirty = true;
+  }
+
+  // ---- Crop handles ----
+  function getCropHandle(p) {
+    if (!cropRect) return null;
+    const x1 = Math.min(cropRect.x1, cropRect.x2);
+    const y1 = Math.min(cropRect.y1, cropRect.y2);
+    const x2 = Math.max(cropRect.x1, cropRect.x2);
+    const y2 = Math.max(cropRect.y1, cropRect.y2);
+    const r = canvas.getBoundingClientRect();
+    const scale = canvas.width / r.width;
+    const t = Math.max(8, 10 * scale);
+    const nearL = Math.abs(p.x - x1) < t;
+    const nearR = Math.abs(p.x - x2) < t;
+    const nearT = Math.abs(p.y - y1) < t;
+    const nearB = Math.abs(p.y - y2) < t;
+    const insideX = p.x > x1 - t && p.x < x2 + t;
+    const insideY = p.y > y1 - t && p.y < y2 + t;
+    if (nearL && nearT) return 'nw';
+    if (nearR && nearT) return 'ne';
+    if (nearL && nearB) return 'sw';
+    if (nearR && nearB) return 'se';
+    if (nearL && insideY) return 'w';
+    if (nearR && insideY) return 'e';
+    if (nearT && insideX) return 'n';
+    if (nearB && insideX) return 's';
+    if (p.x > x1 && p.x < x2 && p.y > y1 && p.y < y2) return 'move';
+    return null;
   }
 
   const view = $('#view');
@@ -1003,14 +1241,33 @@ input[type=range]{width:100%;accent-color:var(--accent)}
         return;
       }
       if (tool === 'crop') {
+        if (cropRect) {
+          const handle = getCropHandle(p);
+          if (handle) {
+            const x1 = Math.min(cropRect.x1, cropRect.x2);
+            const y1 = Math.min(cropRect.y1, cropRect.y2);
+            const x2 = Math.max(cropRect.x1, cropRect.x2);
+            const y2 = Math.max(cropRect.y1, cropRect.y2);
+            cropRect = { x1, y1, x2, y2 };
+            cropOrigin = { ...cropRect };
+            cropHandle = handle;
+            start = p;
+            dragging = true;
+            view.setPointerCapture(e.pointerId);
+            return;
+          }
+        }
         start = p;
         cropRect = { x1: p.x, y1: p.y, x2: p.x, y2: p.y };
+        cropOrigin = null;
+        cropHandle = null;
         $('#cropActions').classList.add('active');
         dragging = true;
         view.setPointerCapture(e.pointerId);
         return;
       }
       backup = clone(canvas);
+      warnBakeOnce();
       start = last = p;
       dragging = true;
       view.setPointerCapture(e.pointerId);
@@ -1038,16 +1295,40 @@ input[type=range]{width:100%;accent-color:var(--accent)}
         ctx.stroke();
         ctx.restore();
       } else if (tool === 'crop') {
-        cropRect = { x1: start.x, y1: start.y, x2: p.x, y2: p.y };
+        if (!cropOrigin || !cropHandle) {
+          cropRect = { x1: start.x, y1: start.y, x2: p.x, y2: p.y };
+        } else {
+          const dx = p.x - start.x;
+          const dy = p.y - start.y;
+          const o = cropOrigin;
+          if (cropHandle === 'move') {
+            cropRect = { x1: o.x1 + dx, y1: o.y1 + dy, x2: o.x2 + dx, y2: o.y2 + dy };
+          } else {
+            const r = { ...o };
+            if (cropHandle.includes('w')) r.x1 = o.x1 + dx;
+            if (cropHandle.includes('e')) r.x2 = o.x2 + dx;
+            if (cropHandle.includes('n')) r.y1 = o.y1 + dy;
+            if (cropHandle.includes('s')) r.y2 = o.y2 + dy;
+            cropRect = r;
+          }
+        }
         showCrop();
       } else {
-        paintMove(p);
+        queuePaint(p);
       }
       return;
     }
     if (pan) {
       view.scrollLeft = pan.l - (e.clientX - pan.x);
       view.scrollTop = pan.t - (e.clientY - pan.y);
+      return;
+    }
+    // Cursor contextual do crop
+    if (tool === 'crop' && cropRect) {
+      const h = getCropHandle(point(e));
+      const map = { nw:'nwse-resize', se:'nwse-resize', ne:'nesw-resize', sw:'nesw-resize',
+                    n:'ns-resize', s:'ns-resize', e:'ew-resize', w:'ew-resize', move:'move' };
+      view.style.cursor = h ? (map[h] || 'crosshair') : 'crosshair';
     }
   });
 
@@ -1056,11 +1337,18 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       if (tool === 'line' || ['pencil', 'brush', 'eraser'].includes(tool)) commit(true);
       dragging = false;
       last = null;
+      cropHandle = null;
+      cropOrigin = null;
     }
     pan = null;
   });
 
-  view.addEventListener('pointercancel', () => { dragging = false; pan = null; });
+  view.addEventListener('pointercancel', () => {
+    dragging = false;
+    pan = null;
+    cropHandle = null;
+    cropOrigin = null;
+  });
 
   // ---- Crop ----
   function showCrop() {
@@ -1068,13 +1356,13 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     const c = $('#crop');
     const r = canvas.getBoundingClientRect();
     const cr = $('#content').getBoundingClientRect();
-    const x = Math.min(cropRect.x1, cropRect.x2);
-    const y = Math.min(cropRect.y1, cropRect.y2);
+    const x1 = Math.min(cropRect.x1, cropRect.x2);
+    const y1 = Math.min(cropRect.y1, cropRect.y2);
     const w = Math.abs(cropRect.x2 - cropRect.x1);
     const h = Math.abs(cropRect.y2 - cropRect.y1);
     c.style.display = 'block';
-    c.style.left = (r.left - cr.left + x * r.width / canvas.width) + 'px';
-    c.style.top = (r.top - cr.top + y * r.height / canvas.height) + 'px';
+    c.style.left = (r.left - cr.left + x1 * r.width / canvas.width) + 'px';
+    c.style.top = (r.top - cr.top + y1 * r.height / canvas.height) + 'px';
     c.style.width = (w * r.width / canvas.width) + 'px';
     c.style.height = (h * r.height / canvas.height) + 'px';
   }
@@ -1087,6 +1375,8 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
   $('#cancelCrop').addEventListener('click', () => {
     cropRect = null;
+    cropHandle = null;
+    cropOrigin = null;
     $('#crop').style.display = 'none';
     $('#cropActions').classList.remove('active');
     deactivateTools();
@@ -1119,6 +1409,8 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     sync();
 
     cropRect = null;
+    cropHandle = null;
+    cropOrigin = null;
     $('#crop').style.display = 'none';
     $('#cropActions').classList.remove('active');
     deactivateTools();
@@ -1127,7 +1419,10 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   });
 
   // ---- Cor ----
-  $('#color').addEventListener('input', e => { $('#hex').value = e.target.value; });
+  $('#color').addEventListener('input', e => {
+    $('#hex').value = e.target.value;
+    savePrefs();
+  });
   $('#hex').addEventListener('input', e => {
     let v = e.target.value.trim();
     if (v && !v.startsWith('#')) v = '#' + v;
@@ -1136,8 +1431,11 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   $('#hex').addEventListener('change', e => {
     let v = e.target.value.trim();
     if (v && !v.startsWith('#')) v = '#' + v;
-    if (/^#[0-9a-f]{6}$/i.test(v)) { $('#color').value = v; e.target.value = v; }
-    else e.target.value = $('#color').value;
+    if (/^#[0-9a-f]{6}$/i.test(v)) {
+      $('#color').value = v; e.target.value = v; savePrefs();
+    } else {
+      e.target.value = $('#color').value;
+    }
   });
   $('#copyHex').addEventListener('click', async () => {
     const h = $('#hex').value;
@@ -1152,8 +1450,15 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       toast('Código copiado: ' + h);
     } catch { toast('Não foi possível copiar'); }
   });
-  $('#size').addEventListener('input', e => { $('#sizeOut').value = e.target.value + ' px'; });
-  $('#tol').addEventListener('input', e => { $('#tolOut').value = e.target.value; });
+  $('#size').addEventListener('input', e => {
+    $('#sizeOut').value = e.target.value + ' px';
+    savePrefs();
+  });
+  $('#tol').addEventListener('input', e => {
+    $('#tolOut').value = e.target.value;
+    savePrefs();
+  });
+  $('#opacity').addEventListener('change', savePrefs);
 
   $('#stopPaint').addEventListener('click', () => deactivateTools());
 
@@ -1193,9 +1498,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
   // ---- Histórico / clipboard ----
   $('#undo').addEventListener('click', undo);
-  $('#undo2').addEventListener('click', undo);
   $('#redo').addEventListener('click', redo);
-  $('#redo2').addEventListener('click', redo);
 
   $('#copy').addEventListener('click', () => {
     if (!loaded) return;
@@ -1212,7 +1515,6 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       state: defaultState(),
       rotation: 0, flip: 1, loaded: true
     });
-    history.push(snapshot());
     toast('Imagem colada');
   });
 
@@ -1234,19 +1536,14 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   function clearProject() {
     if (!confirm('Limpar todo o projeto? Imagem, histórico e ajustes serão apagados.')) return;
 
-    loaded = false;
-    dirty = false;
-    zoom = 1;
-    userZoomed = false;
-    rotation = 0;
-    flip = 1;
+    loaded = false; dirty = false;
+    zoom = 1; userZoomed = false;
+    rotation = 0; flip = 1;
     tool = null;
-    history = [];
-    future = [];
+    resetHistory();
     clipboard = null;
-    cropRect = null;
-    cartoonCache = null;
-    cartoonCacheKey = '';
+    cropRect = null; cropHandle = null; cropOrigin = null;
+    cartoonCache = null; cartoonCacheKey = '';
     state = defaultState();
     currentName = 'imagem';
     start = last = backup = pan = null;
@@ -1262,19 +1559,12 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     $('#cropActions').classList.remove('active');
     deactivateTools();
 
-    $$('.preset').forEach(x => x.classList.remove('active'));
-    const orig = document.querySelector('.preset[data-p="original"]');
-    if (orig) orig.classList.add('active');
+    $$('.preset').forEach(x => {
+      const active = x.dataset.p === 'original';
+      x.classList.toggle('active', active);
+      x.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
 
-    $('#color').value = '#ffffff';
-    $('#hex').value = '#ffffff';
-    $('#size').value = 20;
-    $('#sizeOut').value = '20 px';
-    $('#opacity').value = '1';
-    $('#tol').value = 24;
-    $('#tolOut').value = '24';
-    $('#bgTol').value = 30;
-    $('#bgTolOut').value = '30';
     $('#zoomText').textContent = '100%';
     $('#status').textContent = 'Pronto para editar.';
     view.style.cursor = 'grab';
@@ -1283,7 +1573,6 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     buttons();
     toast('Projeto limpo');
   }
-
   $('#clearProject').addEventListener('click', clearProject);
 
   // ---- Salvar / abrir projeto ----
@@ -1351,13 +1640,16 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       flip = typeof project.flip === 'number' ? project.flip : 1;
       currentName = project.name || 'projeto';
       loaded = true; dirty = false;
-      history = []; future = [];
+      resetHistory();
 
       deactivateTools();
       $('#shell').style.display = 'block';
       $('#empty').style.display = 'none';
       $('#info').textContent = `${currentName} • ${w} × ${h}`;
-      $$('.preset').forEach(x => x.classList.remove('active'));
+      $$('.preset').forEach(x => {
+        x.classList.remove('active');
+        x.setAttribute('aria-pressed', 'false');
+      });
       sync(); render(); fit(); buttons();
       toast('Projeto aberto');
     } catch (err) {
@@ -1388,7 +1680,9 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   $('#format').addEventListener('change', e => {
     const f = e.target.value;
     $('#quality').disabled = (f === 'png' || f === 'bmp');
+    savePrefs();
   });
+  $('#quality').addEventListener('change', savePrefs);
 
   function bmp(source) {
     const sourceCtx = source.getContext('2d');
@@ -1465,31 +1759,34 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     badge.textContent = 'Exportando…';
     badge.classList.add('show');
 
-    setTimeout(() => {
-      const previewPixels   = clone(canvas);
-      const previewCache    = cartoonCache;
-      const previewCacheKey = cartoonCacheKey;
+    // Um rAF duplo garante que o badge apareça ANTES do trabalho pesado
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      setTimeout(() => {
+        const previewPixels   = clone(canvas);
+        const previewCache    = cartoonCache;
+        const previewCacheKey = cartoonCacheKey;
 
-      try {
-        render(true);
-        const exportCanvas = clone(canvas);
-        doExport(exportCanvas);
-      } catch (err) {
-        console.error(err);
-        toast('Erro ao exportar');
-      } finally {
         try {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(previewPixels, 0, 0);
-          cartoonCache    = previewCache;
-          cartoonCacheKey = previewCacheKey;
-        } catch {}
+          render(true);
+          const exportCanvas = clone(canvas);
+          doExport(exportCanvas);
+        } catch (err) {
+          console.error(err);
+          toast('Erro ao exportar');
+        } finally {
+          try {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(previewPixels, 0, 0);
+            cartoonCache    = previewCache;
+            cartoonCacheKey = previewCacheKey;
+          } catch {}
 
-        $('#status').textContent = 'Pronto para editar.';
-        badge.textContent = 'Processando…';
-        badge.classList.remove('show');
-      }
-    }, 30);
+          $('#status').textContent = 'Pronto para editar.';
+          badge.textContent = 'Processando…';
+          badge.classList.remove('show');
+        }
+      }, 30);
+    }));
   }
 
   $('#download').addEventListener('click', download);
@@ -1512,6 +1809,8 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       e.preventDefault(); redo();
     } else if ((e.ctrlKey || e.metaKey) && k === 's') {
       e.preventDefault(); download();
+    } else if (e.key === 'Enter') {
+      if (cropRect) { e.preventDefault(); $('#applyCrop').click(); }
     } else if (e.key === 'Escape') {
       if (cropRect) {
         $('#cancelCrop').click();
@@ -1522,6 +1821,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   });
 
   // ---- Drag & drop ----
+  const dropOverlay = $('#dropOverlay');
   ['dragenter', 'dragover'].forEach(ev => {
     document.addEventListener(ev, e => {
       if (e.dataTransfer && Array.from(e.dataTransfer.types).includes('Files')) {
@@ -1530,8 +1830,22 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       }
     });
   });
+  document.addEventListener('dragenter', e => {
+    if (e.dataTransfer && Array.from(e.dataTransfer.types).includes('Files')) {
+      dragDepth++;
+      dropOverlay.classList.add('show');
+    }
+  });
+  document.addEventListener('dragleave', e => {
+    if (e.dataTransfer && Array.from(e.dataTransfer.types).includes('Files')) {
+      dragDepth--;
+      if (dragDepth <= 0) { dragDepth = 0; dropOverlay.classList.remove('show'); }
+    }
+  });
   document.addEventListener('drop', async e => {
     e.preventDefault();
+    dragDepth = 0;
+    dropOverlay.classList.remove('show');
     const f = e.dataTransfer && e.dataTransfer.files[0];
     if (!f) return;
     if (isProjectFile(f)) await openProjectFromFile(f);
@@ -1556,6 +1870,9 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     }, 150);
   });
 
+  // ---- Inicialização ----
+  loadPrefs();
+  loadColors();
   buttons();
 })();
 </script>
