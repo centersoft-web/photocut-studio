@@ -1,91 +1,117 @@
-# ✦ Studio Retrato FX
+# 🎨 Studio Retrato FX
 
-Um editor de imagens e retratos moderno, rápido e totalmente executado no navegador (client-side), construído com HTML5 Canvas, CSS3 e JavaScript puro (Vanilla JS). Não requer dependências externas ou envio de imagens para servidores, garantindo total privacidade durante a edição.
-
----
+O **Studio Retrato FX** é um editor de imagens e fotos avançado, desenvolvido inteiramente para rodar no navegador (client-side). Ele oferece uma ampla gama de ferramentas para manipulação de imagens, aplicação de filtros artísticos, remoção de fundo e pintura digital, sem a necessidade de instalar softwares pesados.
 
 ## ✨ Funcionalidades
 
-### 🖼️ Carregamento e Gerenciamento de Projetos
-* **Múltiplos Formatos:** Suporte para carregamento de imagens **JPG, PNG, WEBP e BMP** via seletor de arquivos ou arrastar e soltar (*Drag & Drop*).
-* **Otimização Automática:** Redimensionamento inteligente de imagens muito grandes (limite máximo de `2400px` no maior lado) mantendo a orientação original (EXIF).
-* **Salvar e Abrir Projetos:** Exporte o estado atual da sua edição (imagem base, ajustes, rotação e espelhamento) em um arquivo `.json` e retome o trabalho a qualquer momento.
-* **Histórico Completo:** Sistema de Desfazer (`Ctrl+Z`) e Refazer (`Ctrl+Y` / `Ctrl+Shift+Z`) com até 15 estados armazenados, além de suporte para copiar e colar imagens na área de transferência interna.
+### 📂 Gerenciamento de Projetos e Imagens
+- **Carregamento flexível:** Suporte para formatos `JPG`, `PNG`, `WEBP` e `BMP`.
+- **Drag & Drop:** Arraste e solte imagens diretamente na tela.
+- **Fluxo de trabalho:** Botões para Desfazer, Refazer, Abrir projeto, Salvar projeto e Limpar projeto.
 
-### 🎨 Estilos e Filtros Predefinidos (Presets)
-Aplique transformações visuais instantâneas com um clique:
-* **Clássicos & Fotográficos:** Original, Envelhecido, Noir, Vintage, Dramático.
-* **Artísticos & Ilustração:** Cartoon, HQ vibrante, Esboço, Aquarela, Pôster, Craquelê.
-* **Modernos & Efeitos:** Cyber, Duotone, Glow.
+### 🪄 Filtros e Estilos Artísticos
+Transforme suas fotos com um clique em diversos estilos:
+- *Clássicos:* Original, Envelhecido, Vintage, Noir.
+- *Artísticos:* Cartoon, HQ vibrante, Aquarela, Esboço, Pôster, Duotone, Craquelê.
+- *Modernos:* Cyber, Glow, Dramático.
 
-### 🎛️ Ajustes Finos e Efeitos Especiais
-* **Controles de Cor e Luz:** Brilho, Contraste, Saturação, Sépia, Tons de Cinza, Matiz (*Hue*) e Inversão de cores.
-* **Texturas e Lente:** Desfoque (*Blur*), Granulação (*Grain* procedural), Craquelê e Vinheta.
-* **Motor Cartoon Artístico:** Algoritmo dedicado com detecção de bordas (filtro Sobel), quantização de cores e suavização, com pré-visualização rápida e renderização em qualidade máxima na exportação.
+### ✂️ Ferramentas de Edição e Transformação
+- **Ajustes geométricos:** Girar (horário/anti-horário), Espelhar e Cortar.
+- **Área de transferência:** Copiar, Colar e Limpar imagem.
+- **Ajustes finos:** Painel de ajustes para o estilo "Cartoon artístico" (Contornos, Quantidade de cores e Suavização).
 
-### 🛠️ Ferramentas de Edição e Pintura
-* **Remoção de Fundo (Varinha Mágica):** Clique em áreas uniformes (como fundos brancos, verdes ou céu) com ajuste de tolerância para torná-las transparentes.
-* **Transformação e Recorte:** Rotação em 90° (esquerda/direita), espelhamento horizontal, ajuste automático à tela (*Fit*), zoom interativo com o scroll do mouse e ferramenta de corte (*Crop*) com grade da regra dos terços.
-* **Kit de Pintura:** Lápis, Pincel, Borracha, Balde de tinta (com controle de tolerância), Linha reta e Conta-gotas (com exibição e cópia de código Hexadecimal).
+### 🎯 Remoção de Fundo
+- Ferramenta inteligente de seleção por **Tolerância de cor**.
+- Ideal para remover fundos uniformes (branco, verde, céu, etc.) com apenas um clique.
 
-### 💾 Exportação Flexível
-* Exporte a imagem finalizada nos formatos **PNG, JPG, WEBP ou BMP** (com gerador de arquivo BMP nativo em 24-bit).
-* Controle de qualidade de compressão (Máxima, Alta, Média) e preenchimento automático de fundo branco ao exportar transparências para JPG.
+### 🖌️ Ferramentas de Pintura e Desenho
+Um conjunto completo para retoques e arte digital:
+- **Pincéis:** Lápis, Pincel, Borracha e Linha.
+- **Preenchimento:** Balde de tinta com controle de tolerância.
+- **Utilitários:** Copiar cor (Conta-gotas).
+- **Controles:** Ajuste de Tamanho (em px), Opacidade (100%, 75%, 50%, 25%) e seleção de cor personalizada.
 
----
-
-## ⌨️ Atalhos de Teclado
-
-| Atalho | Ação |
-| :--- | :--- |
-| `Ctrl` + `Z` | Desfazer última ação |
-| `Ctrl` + `Y` ou `Ctrl` + `Shift` + `Z` | Refazer ação |
-| `Ctrl` + `S` | Baixar/Exportar imagem finalizada |
-| `Ctrl` + `Shift` + `S` | Salvar arquivo de projeto (`.json`) |
-| `Ctrl` + `O` | Abrir arquivo de projeto |
-| `Esc` | Cancelar recorte ou desativar ferramenta ativa |
-| `Scroll do Mouse` | Aplicar zoom na área de visualização |
+### 💾 Exportação de Alta Qualidade
+Exporte suas criações nos formatos mais populares:
+- **Formatos:** `PNG`, `JPG`, `WEBP`, `BMP`.
+- **Controle de Qualidade:** Máxima, Alta e Média.
 
 ---
 
-## 🚀 Como Instalar e Usar (PWA)
+## 🚀 Como Usar
 
-### Instalação no computador
+Como o **Studio Retrato FX** é uma aplicação 100% *client-side* (front-end), você não precisa de servidores, bancos de dados ou instalações complexas para uso básico.
+
+1. Baixe ou clone este repositório.
+2. Localize o arquivo `index.html`.
+3. Dê um duplo clique para abri-lo em qualquer navegador moderno (Chrome, Firefox, Edge, Safari, etc.).
+4. Comece a editar!
+
+---
+
+## 📲 Instalação no computador
 
 ### No Google Chrome ou Microsoft Edge:
 
-  1. Abra o endereço publicado do projeto.
-  2. Aguarde o carregamento completo da página.
-  3. Clique no ícone de instalação exibido na barra de endereço ou abra o menu do navegador.
-  4. Selecione Instalar aplicativo ou Instalar este site como aplicativo.
-  5. Confirme a instalação.
+1. Abra o endereço publicado do projeto.
+2. Aguarde o carregamento completo da página.
+3. Clique no ícone de instalação exibido na barra de endereço ou abra o menu do navegador.
+4. Selecione **Instalar aplicativo** ou **Instalar este site como aplicativo**.
+5. Confirme a instalação.
 
 Depois disso, o aplicativo poderá ser aberto pelo menu Iniciar, pela área de trabalho ou pelo gerenciador de aplicativos do sistema.
 
-### Instalação no celular ou tablet
+---
+
+## 📱 Instalação no celular ou tablet
 
 ### Em navegadores compatíveis:
 
 1. Abra o endereço do projeto.
 2. Acesse o menu do navegador.
-3. Selecione Instalar aplicativo ou Adicionar à tela inicial.
+3. Selecione **Instalar aplicativo** ou **Adicionar à tela inicial**.
 4. Confirme o nome e a instalação.
 
 O ícone será adicionado à tela inicial do dispositivo.
 
-**Observações**
+---
 
-A disponibilidade e o nome da opção de instalação podem variar conforme o navegador e o sistema operacional.
-Abrir somente o arquivo index.html pelo computador não garante a instalação como PWA.
-O projeto deve ser publicado em HTTPS para utilizar os recursos completos de instalação e service worker.
-O funcionamento offline depende da configuração do service-worker.js e dos arquivos adicionados ao cache.
-Atualizações no projeto podem exigir a atualização da versão do cache do service worker.
+## ⚠️ Observações
 
-## Licença
+- A disponibilidade e o nome da opção de instalação podem variar conforme o navegador e o sistema operacional.
+- Abrir somente o arquivo `index.html` pelo computador **não garante a instalação como PWA**.
+- O projeto deve ser publicado em **HTTPS** para utilizar os recursos completos de instalação e *service worker*.
+- O funcionamento *offline* depende da configuração do `service-worker.js` e dos arquivos adicionados ao cache.
+- Atualizações no projeto podem exigir a atualização da versão do cache do *service worker*.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- **HTML5** (Estrutura e Canvas)
+- **CSS3** (Estilização e Layout responsivo)
+- **JavaScript** (Lógica de manipulação de pixels, filtros e interface)
+- **HTML5 Canvas API** (Processamento de imagens no navegador)
+
+---
+
+## 📝 Notas de Uso
+
+- **Remoção de Fundo:** A ferramenta de remoção de fundo funciona de forma otimizada em imagens com fundos de cor sólida e uniforme.
+- **Performance:** O processamento de imagens em alta resolução é feito diretamente pelo motor do navegador. Recomenda-se o uso de navegadores atualizados para garantir a melhor performance.
+
+---
+
+## 📄 Licença
 
 Nenhuma licença específica foi definida no arquivo fornecido. Antes de distribuir ou publicar o projeto, inclua uma licença compatível com a finalidade pretendida e verifique as licenças das bibliotecas externas utilizadas.
 
+---
 
-## Aviso
+## 📢 Aviso
 
-> Este projeto é uma demonstração educacional desenvolvida para estudos de HTML, CSS e JavaScript. A empresa mencionada é fictícia e qualquer semelhança com empresas reais é mera coincidência.
+> Este projeto é uma **demonstração educacional** desenvolvida para estudos de HTML, CSS e JavaScript. A empresa mencionada é fictícia e qualquer semelhança com empresas reais é mera coincidência.
+
+---
+
+*Desenvolvido com ❤️ para entusiastas de edição de fotos e arte digital.*
